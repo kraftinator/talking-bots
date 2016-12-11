@@ -21,12 +21,14 @@ class BotController
 
   end
   
-  def process
-    
-    ## Bernie_ebooks
-    popular_tweets = popular_tweets( { twitter_handle:"Bernie_ebooks"} )
-    @client.retweet( popular_tweets.last.id ) if popular_tweets.any?
-    
+  def tweet
+    twitter_handles = [ "Bernie_ebooks", "TeaPartyBot", "RepElizaTuring", "RepHalTuring", "EveryTrumpDonor", "TheSeinfeldBot", "RobotGeorge3", "TrendingHx", "colombia_bot", "BillyJoel_Bot" ]
+    twitter_handles.each { |t| process( t ) }
+  end
+  
+  def process( twitter_handle )
+    popular_tweets = popular_tweets( { twitter_handle:twitter_handle} )
+    @client.retweet( popular_tweets.last.id ) if popular_tweets.any?    
   end
   
   def list
@@ -69,85 +71,6 @@ class BotController
     results
     
   end
-
-
-=begin  
-  def process
-  
-    ## @EveryDemDonor
-    #popular_tweet_ids = popular_tweets( "EveryDemDonor", 4 )
-    #@client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    #pause
-
-    ## @EveryGOPDonor
-    #popular_tweet_ids = popular_tweets( "EveryGOPDonor", 4 )
-    #@client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    #pause
-
-    ## @EveryTrumpDonor
-    popular_tweet_ids = popular_tweets( "EveryTrumpDonor", 20 )
-    begin
-      @client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    rescue Twitter::Error::Forbidden => error
-      puts "[ERROR] Twitter::Error::Forbidden: #{ $! }"
-      @client.retweet( popular_tweet_ids[1] ) if popular_tweet_ids.size > 1
-    rescue
-      puts "[ERROR] Unknown Error: #{ $! }"
-    end
-    pause
-    
-    ## @TheSeinfeldBot
-    popular_tweet_ids = popular_tweets( "TheSeinfeldBot", 4 )
-    @client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    pause
-    
-    ## @TrendingHx
-    popular_tweet_ids = popular_tweets( "TrendingHx", 4 )
-    @client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    pause
-
-    ## @TeaPartyBot
-    popular_tweet_ids = popular_tweets( "TeaPartyBot" )
-    @client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    pause
-    
-    ## @Bernie_ebooks
-    popular_tweet_ids = popular_tweets( "Bernie_ebooks" )
-    @client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    pause
-    
-    ## @ConfederateBot
-    #popular_tweet_ids = popular_tweets( "ConfederateBot" )
-    #@client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    #pause
-    
-    ## @colombia_bot
-    popular_tweet_ids = popular_tweets( "colombia_bot" )
-    @client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    pause
-    
-    ## @BillyJoel_Bot
-    popular_tweet_ids = popular_tweets( "BillyJoel_Bot" )
-    @client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    pause
-
-    ## @RepElizaTuring
-    popular_tweet_ids = popular_tweets( "RepElizaTuring" )
-    @client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    pause
-
-    ## @RepHalTuring
-    popular_tweet_ids = popular_tweets( "RepHalTuring" )
-    @client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    pause
-    
-    ## @RobotGeorge3
-    popular_tweet_ids = popular_tweets( "RobotGeorge3" )
-    @client.retweet( popular_tweet_ids.first ) if popular_tweet_ids.any?
-    
-  end
-=end  
-  
  
   def pause
     sleep( rand(5)+5 )
